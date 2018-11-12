@@ -1,0 +1,336 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                               %
+%         ====== Program  No.18 =======          %
+%                                               %
+%             file name snj18.tex               %
+%                                               %
+%===============================================%
+%===================  for  =====================%
+%===============================================%
+%
+\hide
+\vspace{-4mm}
+\begin{itemize} \itemsep=-2mm \parsep=0mm
+\item Total file name: snj01 snj02 $\dots $ snj?, snj\_bibliography
+\item File name: snj18.tex \hfill 印刷日： \today \ \now
+\item 正規作用素の例を挙げる．
+さらにそのスペクトルを調べる．
+[2011年8月16日(火)]
+\end{itemize}
+\endhide
+\SS{BWD}{ドリフトのある1次元ブラウン運動} %===================================
+% On-dimensional brownian motion with a drift
+ここからいくつか正規作用素の例を与える．
+またスペクトルを完全な形で求めることを目標とする．
+
+$\R$ 上で作用素 $\gen = \frac{d^2}{dx^2} - c\frac{d}{dx}$ を考える．
+但しここでは基礎の測度を
+\bdn %----------------------------------------------------------------------
+\nu_1(dx)
+= e^{-cx}dx
+\Eqn{BWD.4}
+\edn %----------------------------------------------------------------------
+にとる．
+このとき
+\bdm %----------------------------------------------------------------------
+\int_\R (\frac{d^2}{dx^2}f - c\frac{d}{dx}f)g(x) e^{-cx}\,dx
+&= \int_\R \frac{d}{dx}(\frac{d}{dx}fe^{-cx})\, g(x)\,dx
+&= - \int_\R (\frac{d}{dx}f e^{-cx}) \frac{d}{dx}g(x)\,dx
+\edm %----------------------------------------------------------------------
+であるから，$\gen$ は自己共役作用素となる．
+実際この作用素は次の対称双線型形式 $\Diri$ に対応する自己共役作用素である:
+\bdn %----------------------------------------------------------------------
+\Diri(f,g)
+= \int_\R \frac{df}{dx} \frac{dg}{dx} e^{-cx}\,dx
+\Eqn{BWD.6}
+\edn %----------------------------------------------------------------------
+また $\nu_1$ に関する $\frac{d}{dx}$ の共役は
+\bdn %----------------------------------------------------------------------
+\Bigl(\frac{d}{dx}\Bigr)_{\nu_1}^*
+= -\frac{d}{dx} + c
+\Eqn{BWD.8}
+\edn %----------------------------------------------------------------------
+であり，生成作用素 $\gen$ は
+\bdm %----------------------------------------------------------------------
+\gen
+= \Bigl(\frac{d}{dx}\Bigr)_{\nu_1}^* \frac{d}{dx}
+\edm %----------------------------------------------------------------------
+の形でも表される．
+$\gen$ のスペクトルを調べるには変換したほうがよい．
+次の写像 $I\colon L^2(\nu_1)\longrightarrow L^2(dx)$ は等距離作用素である：
+\bdn %----------------------------------------------------------------------
+If(x)=e^{-cx/2}f(x).
+\Eqn{BWD.12}
+\edn %----------------------------------------------------------------------
+ここで
+\bdm %----------------------------------------------------------------------
+I\circ \gen \circ I^{-1} f
+&= e^{-cx/2}(\frac{d^2}{dx^2} - c\frac{d}{dx})(e^{cx/2}f) \\
+&= e^{-cx/2}(\frac{c^2}{4} e^{cx/2} f + c e^{cx/2}\frac{df}{dx}
+    + e^{cx/2} \frac{d^2f}{dx^2} - c\frac{1}{2}ce^{cx/2} f
+    - ce^{cx/2}\frac{df}{dx}) \\
+&= - \frac{c^2}{4} f + \frac{d^2f}{dx^2}
+\edm %----------------------------------------------------------------------
+であるから次の図式が可換となる:
+\bdn %----------------------------------------------------------------------
+\begin{CD}
+L^2(\nu_1)	@>{\gen}>>	L^2(\nu_1)		\\
+@V{I}VV             @VV{I}V	\\
+L^2(dx)		@>{\frac{d^2}{dx^2} - \frac{c^2}{4}}>>	L^2(dx)
+\end{CD}
+\Eqn{BWD.14}
+\edn %----------------------------------------------------------------------
+従ってこの場合のスペクトル集合を $\s_1$ とすると
+\bdn %----------------------------------------------------------------------
+\s_1
+= [\frac{c^2}{4},\infty)
+\Eqn{BWD.16}
+\edn %----------------------------------------------------------------------
+となる．
+
+さて，作用素 $\gen$ に摂動を加えて，スペクトルの変化を見ていく．
+ベクトル場 $b$ を
+\bdn %----------------------------------------------------------------------
+b
+= k\frac{d}{dx}
+\Eqn{BWD.18}
+\edn %----------------------------------------------------------------------
+で定める．
+すると $\nu_1$ に関する発散は
+\bdm %----------------------------------------------------------------------
+\div_{\nu_1} b
+= -ck
+\edm %----------------------------------------------------------------------
+となる．
+従って\Thm{CNO-16} から $\gen+b$ は正規作用素になる．
+このスペクトルを求めよう．
+この場合もやはり $I$ で変換して $L^2(dx)$ の話に持っていく．
+\bdm %----------------------------------------------------------------------
+I\circ b \circ I^{-1}f
+&= e^{-cx/2}(k\frac{d}{dx})(e^{cx/2}f) \\
+&= e^{-cx/2} (k\frac{1}{2}ce^{cx/2} f + ke^{cx/2}\frac{df}{dx}) \\
+&= \frac{kc}{2} f + k \frac{df}{dx}
+\edm %----------------------------------------------------------------------
+であるから
+\bdm %----------------------------------------------------------------------
+I\circ (\gen+ b) \circ I^{-1}f
+&= (\frac{d^2}{dx^2} - \frac{c^2}{4} + \frac{kc}{2} + k \frac{d}{dx})f \\
+&= (\frac{d^2}{dx^2} + k \frac{d}{dx} - \frac{c(c-2k)}{4} )f.
+\edm %----------------------------------------------------------------------
+よって $\frac{d^2}{dx^2} + k \frac{d}{dx}$ の
+スペクトルを調べればよいことになる． 
+そのために Fourier 変換を利用する．
+Fourier 変換は次で定義される．
+\bdm %----------------------------------------------------------------------
+\hat{f}(\xi)
+= \frac{1}{\sqrt{2\pi}}\int_\R f(x) e^{-\xi x}\,dx.
+\edm %----------------------------------------------------------------------
+これは $L^2(dx)$ から $L^2(d\xi)$ への等長変換を与える．
+さらに
+\bdm %----------------------------------------------------------------------
+\int_\R (\frac{d^2}{dx^2} + k\frac{d}{dx})f(x)\ol{g(x)}\,dx
+= \int_\R (-\xi^2 + ik\xi) \hat{f}(\xi) \ol{\hat{g}(\xi)}\,d\xi
+\edm %----------------------------------------------------------------------
+が成り立つ．
+即ち，Fourier 変換した空間では $\frac{d^2}{dx^2} + k\frac{d}{dx}$ に対応する
+写像は $-\xi^2 + ik\xi$ をかけるという掛け算作用素である．
+よって $\frac{d^2}{dx^2} + k\frac{d}{dx}$ のスペクトルは
+\bdm %----------------------------------------------------------------------
+\{ - \xi^2 + ik\xi; \xi\in\R\}
+\edm %----------------------------------------------------------------------
+という放物線である．
+
+元に戻って，$L^2(\nu_1)$ での
+$-\gen -b = -\frac{d^2}{dx^2} + c \frac{d}{dx} - k\frac{d}{dx} - $
+のスペクトルは
+\bdm %----------------------------------------------------------------------
+ \{ \frac{c(c-k)}{2} +  \xi^2 + ik\xi;\, \xi\in\R\}
+\edm %----------------------------------------------------------------------
+である．
+
+
+\begin{center}
+\includePdfEps{}{snj_BM_drift1}
+\includePdfEps{}{snj_BM_drift2}
+\end{center}
+
+
+
+
+\begin{comment}
+\begin{center}
+\begin{pspicture}(-1,-4)(5,3) %\showgrid
+%\psset{arcangle=8, linewidth=.8pt}  % default
+%\psset{arrowsize=1.5pt 2} % default
+\psset{arrowsize=3pt 2, arrowlength=1.5}
+\psset{xunit=8mm, yunit=12mm}
+\psaxes[labels=none,showorigin=true,linewidth=.2pt,ticks=none]{->}(0,0)(-1,-2)(4.5,2)
+\psset{linewidth=1pt,arrows=c-c,linecolor=red}
+\psline(.5,0)(4.2,0)
+
+%\psecurve(9,3)(4,2)(1,1)(0,0)(1,-1)(4,-2)(9,-3)
+%\psecurve(9,3)(4,2)(0,0)(4,-2)(9,-3)
+
+\uput[90](.5,0){$\ds \frac{c^2}{4}$}
+\uput{5pt}[45](1,-3){$-\gen$}
+%\showgrid
+\end{pspicture} 
+%
+\begin{pspicture}(-1,-4)(5,3) %\showgrid
+%\psset{arcangle=8, linewidth=.8pt}  % default
+%\psset{arrowsize=1.5pt} % default
+\psset{arrowsize=3pt 2, arrowlength=1.5}
+\psset{xunit=8mm, yunit=12mm}
+\psaxes[labels=y,showorigin=true,linewidth=.2pt,ticks=none]{->}(0,0)(-1,-2)(4.5,2)
+\psset{linewidth=1pt,arrows=c-c,linecolor=red}
+%\psecurve(6.25,2.5)(4,2)(2.25,1.5)(1,1)(.25,.5)(0,0)(1,-1)(2.25,-1.5)(4,-2)(6.25,-2.5)
+\pscurve(5,2)(1,0)(5,-2)
+\uput{5pt}[90](1,0){$\frac{c(c-2k)}{4}$}
+\uput{5pt}[45](1,-3){$-\gen - k\frac{d}{dx}$}
+\end{pspicture} 
+\end{center}
+\end{comment}
+
+
+これは $k$ とともにスペクトルが連続的に変化している様を表している．
+これを違った観点から見てみよう．
+作用素を $\gen = \frac{d^2}{dx^2} - c\frac{d}{dx}$ とする．
+測度を $\nu_0=dx$, $\nu_1=e^{-cx}dx$ として $L^2(\nu_0)$ でのスペクトルと
+$L^2(\nu_1)$ でのスペクトルを比べてみよう．
+同じ作用素を異なった空間で考えていることになる．
+上の計算は $-\gen$ のスペクトルは $L^2(\nu_0)$ では $\{\xi^2 - ic\xi\}$
+であり $L^2(\nu_1)$ では $[\frac{c^2}{4},\infty)$ となっていることが分かる．
+
+
+\begin{center}
+\includePdfEps{}{snj_BM_exp1}
+\includePdfEps{}{snj_BM_exp2}
+\end{center}
+
+
+\begin{comment}
+\begin{center}
+\begin{pspicture}(-1,-4)(5,3) %\showgrid
+%\psset{arcangle=8, linewidth=.8pt}  % default
+%\psset{arrowsize=1.5pt} % default
+\psset{arrowsize=3pt 2, arrowlength=1.5}
+\psset{xunit=8mm, yunit=12mm}
+\psaxes[labels=y,showorigin=true,linewidth=.2pt,ticks=none]{->}(0,0)(-1,-2)(4.5,2)
+\psset{linewidth=1pt,arrows=c-c,linecolor=red}
+%\psecurve(6.25,2.5)(4,2)(2.25,1.5)(1,1)(.25,.5)(0,0)(1,-1)(2.25,-1.5)(4,-2)(6.25,-2.5)
+\pscurve(4,2)(0,0)(4,-2)
+\uput{5pt}[45](1,-3){w.r.t. $\nu_0=dx$}
+
+%\showgrid
+\end{pspicture} 
+%
+\begin{pspicture}(-1,-4)(5,3) %\showgrid
+%\psset{arcangle=8, linewidth=.8pt}  % default
+%\psset{arrowsize=1.5pt 2} % default
+\psset{arrowsize=3pt 2, arrowlength=1.5}
+\psset{xunit=8mm, yunit=12mm}
+\psaxes[labels=none,showorigin=true,linewidth=.2pt,ticks=none]{->}(0,0)(-1,-2)(4.5,2)
+\psset{linewidth=1pt,arrows=c-c,linecolor=red}
+\psline(.5,0)(4.2,0)
+
+%\psecurve(9,3)(4,2)(1,1)(0,0)(1,-1)(4,-2)(9,-3)
+%\psecurve(9,3)(4,2)(0,0)(4,-2)(9,-3)
+
+\uput[90](.5,0){$\ds \frac{c^2}{4}$}
+\uput{5pt}[45](1,-3){w.r.t. $\nu_1=e^{-cx}dx$}
+%\showgrid
+\end{pspicture} 
+\end{center}
+\end{comment}
+
+
+今度は測度を連続的に動かしてスペクトルの変化を見よう．
+$\theta\in[0,1]$ に対し測度 $\nu_\theta$ を
+\bdn %----------------------------------------------------------------------
+\nu_\theta(dx) = (1-\theta)dx  + \theta e^{-cx} dx
+\Eqn{BWD.22}
+\edn %----------------------------------------------------------------------
+で定める．
+$L^2(\nu_\theta)$ でのスペクトルはどのように変化するであろうか．
+次のように連続的に変化することも考えられる．
+
+\begin{center}
+\includePdfEps{}{snj_BM_measure1}
+\end{center}
+
+\begin{comment}
+\begin{center}
+\begin{pspicture}(-1,-4)(5,3) %\showgrid
+%\psset{arcangle=8, linewidth=.8pt}  % default
+%\psset{arrowsize=1.5pt} % default
+\psset{arrowsize=3pt 2, arrowlength=1.5}
+\psset{xunit=8mm, yunit=12mm}
+\psaxes[labels=y,showorigin=true,linewidth=.2pt,ticks=none]{->}(0,0)(-1,-2)(4.5,2)
+%\psset{linewidth=1pt,arrows=c-c}
+\psset{linewidth=1pt,arrows=c-c,linecolor=red}
+%\psecurve(6.25,2.5)(4,2)(2.25,1.5)(1,1)(.25,.5)(0,0)(1,-1)(2.25,-1.5)(4,-2)(6.25,-2.5)
+\psline(.5,0)(4.2,0)
+\pscurve(4,2)(0,0)(4,-2)
+\pscurve[linecolor=blue](4,.9)(.25,0)(4,-.9)
+\psline[linecolor=black]{->}(2.3,1.2)(3.1,.3)
+\uput{5pt}[45](1,-3){w.r.t. $\nu_\theta$}
+\uput[45](2.5,1){?}
+
+%\showgrid
+\end{pspicture} 
+\end{center}
+\end{comment}
+
+しかし，これは正しくない．
+実際は二つの和集合になる．
+\Theorem{BWD-4} %**********************************************************
+$\theta\in (0,1)$ のとき $-\gen$ の $L^2(\nu_\theta)$ におけるスペクトルは
+\bdm %----------------------------------------------------------------------
+\{\xi^2 - ik\xi; \xi\in\R\} \cup [\frac{c^2}{4},\infty)
+\edm %----------------------------------------------------------------------
+である．
+\end{theorem} %*************************************************************
+
+
+
+\begin{center}
+\includePdfEps{}{snj_BM_measure2}
+\end{center}
+
+\begin{comment}
+\begin{center}
+\begin{pspicture}(-1,-4)(5,3) %\showgrid
+%\psset{arcangle=8, linewidth=.8pt}  % default
+%\psset{arrowsize=1.5pt} % default
+\psset{arrowsize=3pt 2, arrowlength=1.5}
+\psset{xunit=8mm, yunit=12mm}
+\psaxes[labels=y,showorigin=true,linewidth=.2pt,ticks=none]{->}(0,0)(-1,-2)(4.5,2)
+\psset{linewidth=1pt,arrows=c-c,linecolor=red}
+%\psecurve(6.25,2.5)(4,2)(2.25,1.5)(1,1)(.25,.5)(0,0)(1,-1)(2.25,-1.5)(4,-2)(6.25,-2.5)
+\psline(.5,0)(4.2,0)
+\pscurve(4,2)(0,0)(4,-2)
+\uput{5pt}[45](1,-3){w.r.t. $\nu_\theta$}
+%\showgrid
+\end{pspicture} 
+\end{center}
+\end{comment}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsec{Notes}
+\begin{itemize}
+\item 
+\end{itemize}
+

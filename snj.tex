@@ -1,0 +1,542 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                               %
+%          =====  Root Program  =====           %
+%                                               %
+%===============================================%
+%====================  for  ====================%
+%===============================================%
+%                                               %
+%            非対称作用素のスペクトル           %
+%                                               %
+%               Ichiro SHIGEKAWA                %
+%                                               %
+%===============================================%
+%====================== in =====================%
+%===============================================%
+%                                               %
+%                    日本語版                   %
+%                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This file is to be run with the LaTeX-2e Version *
+%
+%\batchmode
+\documentclass[12pt,leqno,a4paper]{jarticle}
+% Information can be obtained from
+% C:\ptex\texm\tex\latex\amslates\inputs\amsart.cls
+% (c:/ptex/texmf/tex/latex/base/article.cls
+\usepackage[utf8]{inputenc}
+\usepackage[ipaex]{pxchfon}
+\usepackage{amsmath,amsopn,amscd,amssymb,amsthm,verbatim,ascmac,latexsym,url}
+%  amsmath.sty	古くは amstex.sty であったが、
+%               こちらは互換性のみで凍結されている。
+%  ascmac.sty	これは ASKII  独自のマクロなので一般的ではない。
+%		個人使用に限るべし。  \itembox が使える利点がある。
+% amsthm に proof 環境がある。  amsart, amsbook には 同様な pf 環境がある。
+% ただし Proof. と後に period が来る。\begin{proof}[証明] とすれば、
+% 日本語に出来るが、period が残る。尚証明は後で定義しなおしてあるので参照
+%
+%\usepackage[usenames]{color} % PSTrick を使うときは color 
+%\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+%%%%%%%%%%%%%%%%%%%%   Draft と Final のきりかえ %%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcount\draftversion      %\draftversion=1
+\ifodd\draftversion \relax \else \usepackage{showkeys} \fi
+% 最後の仕上げの段階で、1 にする。通常は percent out して default の 0。
+%
+%%%%%%%%%%%%%%%%%%%%   PDF と PS のきりかえ  グラフィックの設定 %%%%%%%%%%%%
+%
+% underscore _ を使うために url package で \path{} を使っている．
+% \verb!#2! の形をマクロの中に入れるとうまく機能しない．
+%
+\newcount\pdfflag    \pdfflag=1
+\ifodd\pdfflag % PDF の場合 \pdfflag=1 のとき
+\def\includePdfEps#1#2{\includegraphics#1{eps/#2.eps}
+	\ifodd\draftversion \relax
+	\else \par File name: \path{#2.eps}
+	\fi
+}
+\usepackage[dvipdfmx]{graphicx} %\usepackage{pst-all}
+%\usepackage[usenames]{color}
+
+\else % EPS の場合 \pdfflag=0 のとき
+%
+\def\includePdfEps#1#2{\includegraphics#1{#2.eps}
+	\ifodd\draftversion \relax
+	\else \par File name: \path{#2.eps}
+	\fi
+}
+\usepackage[dvips]{graphicx}
+
+%\usepackage{pst-all}
+
+%\usepackage{color}
+%\newpsobject{showgrid}{psgrid}{subgriddiv=1,griddots=10,gridlabels=6pt}
+% PSTrick の中で \colorが使える． 
+%\usepackage[dvips,usenames]{color} % PSTrick を使うときはcolor は使えない．
+\fi
+% PDF にするとき 1（すなわち TRUE） にする．
+% 通常は EPS なのでパーセントアウトして default の 0 （すなわち FALSE）．
+
+%%%%%%%%%%%%%%%%%%%%   Packages  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fancybox}
+% \usepackage{boxedminipage}
+% \usepackage{nruby}	%  ルビをつける ： \ruby{漢字}{よみ}
+\usepackage{ulem}	%  波線、取り消し線をつける。 \uwave{}、 \sout{} 
+\usepackage{time}	%  時刻の挿入   \now 
+%\usepackage{cancel}	%  斜線で cancel を入れる． \cancel{}，\bcancel{}... 
+%%%%%%%%%%%%%%%%%%%%   スクリプトのフォント   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \def\mathscr#1{\mathcal{#1}}
+%\usepackage{rsfs}  % Now you can use \mathscr in PC
+\usepackage{mathrsfs}  % Now you can use \mathscr in UNIX
+\renewcommand{\cal}{\mathscr}  % mathscr が使えない場合がある。
+                                % そのためにすぐ \cal に戻せるように
+                                % しておいた方がいいのだ。
+% \def\cal{\mathcal}
+%%%%%%%%%%%%%%%%%%%%      グラフィックス      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \usepackage{righttag,array}
+%\usepackage[dvips]{graphicx}	\usepackage{pst-all}
+%\newpsobject{showgrid}{psgrid}{subgriddiv=1,griddots=10,gridlabels=6pt}
+%%%%%%%%%%%%%%%%%%%%      floting objects     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\usepackage{floatfig}
+\usepackage{wrapfig}
+% 図の左側にテキストを流し込む。
+%
+%%%%%%%%%%%%%%%%%%%%   連番 コメント (参考用で後で消す)   %%%%%%%%%%%%%%%%%%
+\ifodd\draftversion \long\def\hide#1\endhide{\relax} \def\endhide{}
+\else
+\newcounter{commentno}
+\long\def\hide#1\endhide{\stepcounter{commentno} \begin{center}\begin{itembox}[l]{コメント: No.~\arabic{commentno}} \parindent=1zw \small #1 \end{itembox} \end{center}}   \def\endhide{}
+\fi
+%\def\hide#1\endhide{\stepcounter{commentno} \begin{center} \begin{boxedminipage}[t]{\textwidth}{コメント: No.~\arabic{commentno}} \\ \noindent \small #1 \end{boxedminipage} \end{center}}   \def\endhide{}
+%\def\hide#1\endhide{\relax} \def\endhide{}
+%%%%%%%%%%%%%%%%%%%%   メモ書き (参考用で後で消す)   %%%%%%%%%%%%%%%%%%%%%%%
+%
+\ifodd\draftversion \newcommand{\memo}[1]{\relax}
+\else
+\newcommand{\memo}[1]{\ifmmode \quad\mbox{{\bf [}MEMO: #1 \ {\bf ]}} \else {\bf [}MEMO: #1 \ {\bf ]}\fi}
+\fi
+
+
+
+% 科研費の補助金の英語表記
+% 科学研究費補助金 Grant-in-Aid for Scientific Research (略称「KAKENHI」)
+% 特別推進研究 Grant-in-Aid for Specially Promoted Research
+% 特定領域研究 Grant-in-Aid for Scientific Research on Priority Areas
+% 新学術領域研究 Grant-in-Aid for Scientific Research on Innovative Areas
+% 基盤研究(S)，(A)，(B)，(C) Grant-in-Aid for Scientific Research (S)or (A)or(B)or(C)
+% 萌芽研究 Grant-in-Aid for Exploratory Research
+% 挑戦的萌芽研究 Grant-in-Aid for Challenging Exploratory Research
+% 若手研究(S)，(A)，(B) Grant-in-Aid for Young Scientists (S)or(A)or(B)
+% 若手研究（スタートアップ） Grant-in-Aid for Young Scientists (Start-up)
+% 研究活動スタート支援 Grant-in-Aid for Research Activity Start-up
+% 特別研究促進費 Grant-in-Aid for Special Purposes
+% 研究成果公開促進費 Grant-in-Aid for Publication of Scientific Research Results
+% 特別研究員奨励費 Grant-in-Aid for JSPS Fellows
+% 学術創成研究費 Grant-in-Aid for Creative Scientific Research
+% ※ 文部科学省  The Ministry of Education,Culture,Sports,Science and Technology (MEXT)
+% ※ 独立行政法人日本学術振興会 Japan Society for the Promotion of Science(JSPS)
+
+%%%%%%%%%%%%%%%%%%%%   参考資料 (参考用でdraft でのみ残す)   %%%%%%%%%%%%%%%
+%
+\ifodd\draftversion \long\def\sankou#1\endsankou{\relax} \def\endsankou{}
+\else
+\long\def\sankou#1\endsankou{%
+%
+%\renewcommand{\thepage}{\arabic{page} \rput[b]{45}(2,5){\color[rgb]{0.85,0.85,0.85}{\rotatebox{50}{\scalebox{8}{Draft}}}} }
+%\def\thepage{\rput[b]{45}(2,5){Draft}  \arabic{page} }
+%
+\centerline{\fbox{ここから後は参考用にのみ残してある}} \medskip \par
+%\pagecolor{gray}
+%\color[rgb]{0.5,0.5,0.5}
+\color[rgb]{0.2,0.2,1}
+%\color{gray}
+\parindent=1zw %\small
+#1
+\medskip \par
+%\pagecolor{white}
+\color{Black}
+\centerline{\fbox{これ以前は参考用にのみ残してある}} }
+\def\endhide{}
+\fi
+
+
+
+%%%%%%%%%%%%%%%%%%%%   全体にわたる Box   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newlength{\IchiroLength}
+\long\def\widebox#1\endwidebox{ \setlength{\fboxsep}{4pt} \setlength{\IchiroLength}{\linewidth} \addtolength{\IchiroLength}{-2\fboxsep} \addtolength{\IchiroLength}{-2\fboxrule} \begin{center} \framebox[\linewidth]{\parbox{\IchiroLength}{\setlength{\abovedisplayskip}{-0pt} \setlength{\belowdisplayskip}{4pt}#1}}\unskip \end{center} \setlength{\fboxsep}{2pt}} \def\endwidebox{}
+%\def\widebox#1\endwidebox{#1} \def\endwidebox{}
+
+%======================= Beginning of TeX ==================================
+\usepackage{secdot}  % 節の番号の跡にピリオドを打つ
+%
+% (c:/ptex/texmf/tex/latex/base/article.cls から変更
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+%   {1.5\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+   {1\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+   {.5\Cvs \@plus.3\Cdp}%
+   {\reset@font\large\bfseries}}
+%  \large は元は \Large だった 
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+%   {1.5\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+   {.7\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+%   {.5\Cvs \@plus.3\Cdp}%
+   {.3\Cvs \@plus.3\Cdp}%
+%   {\reset@font\large\bfseries}}
+%   {\reset@font\normalsize\bfseries\noindent\underline}}
+   {\reset@font\normalsize\bfseries\boldmath\noindent\underline}}
+%  \normalsize は元は \large だった 
+\makeatother
+%\newcommand{\SS}[2]{\section{#2}\setcounter{equation}{0}\label{Sec.#1}}
+\renewcommand{\SS}[2]{\section{#2}\label{Sec.#1}}
+\newcommand{\StartNewSection}{
+\ifodd\draftversion \relax \else \cleardoublepage \fi}
+\newcommand{\Sec}[1]{第 \ref{Sec.#1}節}
+%\newcommand{\subsec}[1]{\subsection{\boldmath #1}}
+
+\newcommand{\subsec}[1]{\subsection{#1}}
+%\newcommand{\subsec}[1]{\underline{\subsection{#1}}}
+%
+%======================= Setting of Length =================================
+\setlength{\topmargin}{0cm}
+%\setlength{\headheight}{0pt}		\setlength{\headsep}{0pt}
+\setlength{\oddsidemargin}{-.2cm}	\setlength{\evensidemargin}{-.2cm}
+\setlength{\textheight}{23cm}		\setlength{\textwidth}{16.5cm}
+%\setlength{\textheight}{21cm}		\setlength{\textwidth}{14.5cm}
+\hfuzz=.00001pt			
+\ifodd\draftversion \overfullrule=0pt
+\else \overfullrule=8pt %(plain TeX command)
+\fi
+%\renewcommand{\baselinestretch}{1.2}
+\raggedbottom
+%
+\parindent=1zw
+%\jintercharskip=.5pt plus .3pt minus .4pt
+%
+%=======================  Setting of Header, Footer  =======================
+%\pagestyle{plain}
+%\pagestyle{headings}
+%\markboth{\hfill Weitzenbock formula \hfill \thepage}%
+%{\thepage\hfill T. Kazumi and I. Shigekawa \hfill}
+%
+%=======================  Setting of Counters  =============================
+\setcounter{secnumdepth}{1}
+\numberwithin{equation}{section}
+%======================= 定理・証明の設定 ==================================
+%
+\makeatletter     % 以下は amsthm.sty から持ってきた
+\renewenvironment{proof}[1][\proofname]{\par\normalfont
+ \topsep6\p@\@plus6\p@ \trivlist
+%  \item[\hskip\labelsep\itshape
+  \item[\hskip\labelsep
+%    #1\@addpunct{.}]\ignorespaces
+    #1 ]\ignorespaces}{\qed\endtrivlist}
+\renewcommand{\proofname}{{\bf 証明}}
+%\renewcommand{\qedsymbol}{\rule{3pt}{12pt}} % default は \openbox
+\makeatother
+\newcommand{\Proof}{\begin{proof}}		\newcommand{\QED}{\end{proof}}
+
+
+\newenvironment{demonst}[1]{\begin{trivlist}%
+\item[]{\bf #1}\ }{\end{trivlist}}
+\newcommand{\qbd}[1]{\begin{demonst}{#1\ }}
+\newcommand{\myqed}{\hfill\qedsymbol\end{demonst}}
+%\newsavebox{\toybox}
+%\savebox{\toy}{\framebox[0.65em]{\rule{0cm}{1ex}}}
+%
+\newenvironment{property}%
+{\begin{list}{}{\setlength{\rightmargin}{0pt}%
+\setlength{\itemsep}{0pt}}}{\end{list}}
+\newlength{\templength}
+\newcommand{\bp}{\setlength{\templength}{\labelwidth}%
+\setlength{\labelwidth}{2em}\begin{property}}
+\newcommand{\ep}{\end{property}\setlength{\labelwidth}{\templength}}
+%
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{proposition}[theorem]{命題}
+\newtheorem{corollary}[theorem]{系}
+%\newtheorem{assumption}{仮定}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{problem}{問題}[section]
+\newtheorem{example}{例}[section]
+\newtheorem{remark}{注意}[section]
+%
+\newcommand{\Thm}[1]{定理 \ref{Thm.#1}}
+\newcommand{\Lem}[1]{補題 \ref{Lem.#1}}
+\newcommand{\Cor}[1]{系 \ref{Cor.#1}}
+\newcommand{\Prop}[1]{命題 \ref{Prop.#1}}
+%\newcommand{\Ass}[1]{仮定 \ref{Ass.#1}}
+\newcommand{\Def}[1]{定義 \ref{Def.#1}}
+\newcommand{\Prob}[1]{問題 \ref{Prob.#1}}
+\newcommand{\Exam}[1]{例 \ref{Exam.#1}}
+\newcommand{\Rem}[1]{注意 \ref{Rem.#1}}
+\newcommand{\Eq}[1]{(\ref{Eq.#1})}
+%
+\newcommand{\Theorem}[1]{\begin{theorem}\label{Thm.#1}\rm}
+\newcommand{\Lemma}[1]{\begin{lemma}\label{Lem.#1}\rm}
+\newcommand{\Proposition}[1]{\begin{proposition}\label{Prop.#1}\rm}
+\newcommand{\Corollary}[1]{\begin{corollary}\label{Cor.#1}\rm}
+%\newcommand{\Assumption}[1]{\begin{assumption}\label{Ass.#1}\rm}
+\newcommand{\Definition}[1]{\begin{definition}\label{Def.#1}\rm}
+%\newcommand{\Problem}[1]{\begin{problem}\label{Prob.#1}\rm}
+\newcommand{\Problem}[1]{\begin{problem}\label{Prob.#1}\rm}
+\newcommand{\Example}[1]{\begin{example}\label{Exam.#1}\rm}
+\newcommand{\Remark}[1]{\begin{remark}\label{Rem.#1}\rm}
+%
+%=======================  Abbriviation of Greek letters  ===================
+\newcommand{\al}{\alpha}
+\newcommand{\be}{\beta}
+\newcommand{\gm}{\gamma}
+\newcommand{\Gm}{\Gamma}
+\renewcommand{\d}{\delta}
+% \newcommand{\D}{\Delta}
+% \newcommand{\vD}{\varDelta}
+\newcommand{\e}{\varepsilon}
+% \newcommand{\ve}{\epsilon}
+% \newcommand{\z}{\zeta}
+\newcommand{\h}{\eta}
+% \renewcommand{\th}{\theta} 	% 正体不明のコマンドとして定義済み	
+\newcommand{\Th}{\Theta}
+% \newcommand{\vTh}{\varTheta}
+% \newcommand{\vth}{\vartheta}
+\newcommand{\io}{\iota}
+% \newcommand{\k}{\kappa}
+% \newcommand{\vk}{\varkappa}
+\newcommand{\lm}{\lambda}
+\newcommand{\Lm}{\Lambda}
+% \newcommand{\vLm}{\varLambda}
+% \newcommand{\m}{\mu}
+% \newcommand{\n}{\nu}
+% \newcommand{\vX}{\varXi}
+% \newcommand{\vPi}{\varPi}
+% \renewcommand{\r}{\rho}		% アクセント記号上に小さな円として定義済み
+% \newcommand{\vr}{\varrho}
+\newcommand{\s}{\sigma}
+% \newcommand{\S}{\Sigma}
+% \newcommand{\vS}{\varSigma}
+% \renewcommand{\t}{\tau}		% 上に丸いアクセント記号として定義済み
+% \renewcommand{\u}{\upsilon}	% u 型のアクセント記号として定義済み
+% \newcommand{\U}{\Upsilon}
+% \newcommand{\vU}{\varUpsilon}
+\newcommand{\ph}{\phi}
+% \newcommand{\Ph}{\Phi}
+% \newcommand{\vPh}{\varPhi}
+\newcommand{\vph}{\varphi}
+% \newcommand{\ch}{\chi}
+% \newcommand{\ps}{\psi}
+% \newcommand{\Ps}{\Psi}
+% \newcommand{\vPs}{\varPsi}
+\newcommand{\w}{\omega}
+\newcommand{\W}{\Omega}
+% \newcommand{\vW}{\varOmega}
+%
+%=======================  Abbriviation of Calligraphic letters  ============
+\newcommand{\B}{{\cal B}}
+%\newcommand{\D}{{\cal D}}
+\newcommand{\F}{{\cal F}}
+\newcommand{\sA}{{\cal A}}
+\newcommand{\sB}{{\cal B}}
+\newcommand{\sC}{{\cal C}}
+\newcommand{\sD}{{\cal D}}
+\newcommand{\sE}{{\cal E}} 
+\newcommand{\sF}{{\cal F}}
+\newcommand{\sH}{{\cal H}}
+\newcommand{\sJ}{{\cal J}}
+\newcommand{\sL}{{\cal L}}
+\newcommand{\sP}{{\cal P}}
+\newcommand{\sS}{{\cal S}}
+\newcommand{\sV}{{\cal V}}
+\newcommand{\sY}{{\cal Y}}
+\newcommand{\sW}{{\cal W}}
+%
+%=======================  Abbriviation of German letters  ==================
+\newcommand{\g}{{\mathfrak g}}
+%\newcommand{\gg}{{\mathfrak g}}
+\newcommand{\gG}{{\mathfrak G}}
+\newcommand{\gS}{{\mathfrak S}}
+%
+%=======================  Abbriviation of Bold letters  ====================
+\newcommand{\bX}{{\bold X}}
+\newcommand{\bY}{{\bold Y}}
+%\newcommand{\bH}{\mbox{\boldmath $H$}}
+\newcommand{\bH}{{\bold H}}
+\newcommand{\boldf}{{\bold f}}
+\newcommand{\bh}{{\boldsymbol\eta}}
+
+\newcommand{\bal}{{\boldsymbol \alpha}}
+\newcommand{\bbe}{{\boldsymbol \beta}}
+\newcommand{\bga}{{\boldsymbol \gamma}}
+\newcommand{\bde}{{\boldsymbol \delta}}
+%
+%=======================  Common Macro Commands  ===========================
+\newcommand{\1}{\sqrt{-1}}
+\newcommand{\del}{\partial}
+\newcommand{\delb}{\bar{\partial}}
+\newcommand{\8}{\infty}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\C}{{\mathbb C}}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\Q}{{\mathbb Q}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand\tn{|\!\|}
+%\newcommand{\injection}{\mathrel{\subset\kern-.82em\lower.28em\hbox{$\to$}}}
+\newcommand{\injection}{\;{\subset\kern-.82em\lower.28em\hbox{$\to$}}\;}
+\newcommand{\grad}{\operatorname{grad}\nolimits}
+\renewcommand{\div}{\mathop{\rm div}\nolimits} % \div は本来 ÷ の記号
+\newcommand{\Dom}{\operatorname{Dom}\nolimits}
+\newcommand{\Ran}{\operatorname{Ran}\nolimits}
+\newcommand{\Ker}{\operatorname{Ker}\nolimits}
+\newcommand{\sgn}{\operatorname{sgn}\nolimits}
+\newcommand{\supp}{\operatorname{supp}\nolimits}
+\newcommand{\inflim}{\mathop{\underline{\operatorname{lim}}}}
+\newcommand{\suplim}{\mathop{\overline{\operatorname{lim}}}}
+\newcommand{\maru}{\raise.1em\hbox{\scriptsize $\circ$}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\interior}[1]{\operatorname{Dom}\nolimitsi(#1)}
+\newcommand{\inte}{\operatorname{int}\nolimits}
+\newcommand{\ext}{\operatorname{ext}\nolimits}
+\newcommand{\plus}[1]{{#1}_{\raise.1em\hbox{$\scriptscriptstyle \,+$}}}
+\newcommand{\minus}[1]{{#1}_{\raise.1em\hbox{$\scriptscriptstyle \,-$}}}
+\newcommand{\plusminus}[1]{{#1}_{\raise.1em\hbox{$\scriptscriptstyle \,\pm$}}}
+\newcommand{\delete}[2]{\stackrel{\scriptstyle #1\atop\vee}{#2}}
+\newcommand{\ddelete}[3]{\stackrel{{\scriptstyle #1\atop\vee}\;{\scriptstyle #2\atop\vee}}{#3}}
+\newcommand{\define}{\mbox{$\overset{\textrm{def}}{\Longleftrightarrow}$}}
+\newcommand{\bd}{\[}		\newcommand{\ed}{\]}
+\def\bdn#1\edn{\begin{equation}#1\end{equation}}	\def\edn{}
+\def\bdm#1\edm{\begin{align*}#1\end{align*}}		\def\edm{}
+%\def\bdm#1\edm{\begin{eqnarray*}#1\end{eqnarray*}}
+\def\bdmn#1\edmn{\begin{align}#1\end{align}}		\def\edmn{}
+%\def\bdmn#1\edmn{\begin{eqnarray}#1\end{eqnarray}}
+\def\bg#1\eg{\begin{gather*}#1\end{gather*}}		\def\eg{}
+\def\bgn#1\egn{\begin{gather}#1\end{gather}}		\def\egn{}
+%
+\newlength{\FrameLength}
+\def\bframe#1\eframe{\begin{center}\setlength{\fboxsep}{6pt}\setlength{\FrameLength}{\linewidth}\addtolength{\FrameLength}{-2\fboxsep}\addtolength{\FrameLength}{-2\fboxrule}\fbox{\begin{minipage}{\FrameLength}{#1\unskip}\end{minipage}}\end{center}}
+\def\eframe{}
+%\def\bframe#1\eframe{\noindent\fbox{\parbox{16.05cm}{#1}}}
+\newcommand{\Eqn}[1]{\label{Eq.#1}}
+\newcommand{\nn}{\nonumber}
+\newcommand{\squad}{\hspace{1.2em}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\Laplace}{\triangle}
+
+%
+%=======================  Special Macro Commands  ==========================
+
+\newcommand{\FC}{{\cal F} C^\infty_0}
+\newcommand{\hs}[1]{{\cal L}_{(2)}^#1(H;\R)}
+\newcommand{\gh}{g^{\scriptscriptstyle \rightarrow}}
+\newcommand{\Gh}{G^{\scriptscriptstyle \rightarrow}}
+\newcommand{\Hh}{H^{\scriptscriptstyle \rightarrow}}
+\newcommand{\Ph}{{{\cal P}^{\scriptscriptstyle \rightarrow}}}
+\newcommand{\gv}{g^{\scriptscriptstyle \uparrow}}
+\newcommand{\Gv}{G^{\scriptscriptstyle \uparrow}}
+\newcommand{\Hv}{H^{\scriptscriptstyle \uparrow}}
+\newcommand{\Pv}{{\cal P}^{\mbox{\tiny $\uparrow$}}}
+\newcommand{\Pt}{{\cal P}}
+\newcommand{\HPv}{H{\cal P}^{\mbox{\tiny $\uparrow$}}}
+%\newcommand{\HPh}{H{\cal P}}
+\newcommand{\GPv}{G{\cal P}^{\mbox{\tiny $\uparrow$}}}
+%\newcommand{\GPh}{G{\cal P}}
+\newcommand{\PV}{P^V}
+\newcommand{\Ent}{\operatorname{Ent}\nolimits}
+\newcommand{\Var}{\operatorname{Var}\nolimits}
+\newcommand{\D}[2]{\mbox{D[$#1, #2$]}}
+\newcommand{\E}[1]{E\left[ #1 \right]}
+\newcommand{\Diri}{\cal{E}}
+\newcommand{\tDiri}{\tilde{\cal{E}}}
+\newcommand{\sDiri}{\tilde{\cal{E}}}
+\newcommand{\aDiri}{\check{\cal{E}}}
+\newcommand{\hDiri}{\hat{\cal{E}}}
+\newcommand{\vDiri}{\cal{E}^V}
+\newcommand{\DiriV}{\cal{E}^V}
+\newcommand{\m}{m}
+\newcommand{\tmu}{{\tilde{\mu}}}
+\newcommand{\tb}{{\tilde{b}}}
+\newcommand{\tw}{{\tilde{\omega}}}
+\newcommand{\Proj}[1]{P}
+\newcommand{\J}{J} % 複素共役をとる作用。 C とか c にしもよいかも
+
+%\renewcommand{\Pr}[1]{\hat{P}_{#1}}   % already defined as 'Pr'
+\newcommand{\gen}{{\mathfrak A}}
+\newcommand{\vgen}{{\mathfrak A}^V}
+\newcommand{\genV}{{\mathfrak A}^V}
+%\newcommand{\vgen}{{\vec{\mathfrak A}}}
+\newcommand{\sem}[1]{T_{#1}}
+\newcommand{\tsem}[1]{\tilde{T}_{#1}}
+\newcommand{\vsem}[1]{{T}^V_{#1}}
+\newcommand{\semV}[1]{{T}^V_{#1}}
+\newcommand{\res}[1]{G_{#1}}
+
+\newcommand{\Er}[1]{\hat{E}_{#1}}
+%\newcommand{\lt}{\mathrel{\raise.3ex\hbox{$<$}\kern-.78em\lower.85ex\hbox{$\sim$}}}
+\newcommand{\lt}{\lesssim}
+%\newcommand{\gth}{\mathrel{\raise.2ex\hbox{$>$}\kern-.75em\lower.32em\hbox{$\sim$}}}
+\newcommand{\gth}{\gtrsim}
+\newcommand\op{{\operatorname{op}}}
+\newcommand\tr{{\operatorname{tr}}}
+\newcommand\co{{\overline{\operatorname{co}}}}
+\newcommand\HS{{\operatorname{HS}}}
+\newcommand\Hom{{\operatorname{Hom}}}
+\newcommand\bwedge{{\textstyle \bigwedge}}
+\newcommand{\Ric}{\operatorname{Ric}}
+
+\setlength{\parsep}{.2pt plus .2pt minus .1pt}
+\setlength{\itemsep}{-23pt plus .2pt minus .1pt}
+\setlength{\labelwidth}{15mm}
+
+
+
+%
+%=======================  End Of Beginning Of TeX  =========================
+%
+%\includeonly{snj,unj,unj_bibliography}
+%
+\begin{document}
+\allowdisplaybreaks
+%=======================     漢字間隔      =================================
+%\jintercharskip=.5pt plus .4pt minus .46pt    % UNIX 用のコマンド
+%\kanjiskip=.5pt plus .4pt minus .46pt % PC 用のコマンド
+% \jintercharskip=.5pt plus .5pt minus .4pt   % PC 用
+%
+\thispagestyle{empty}
+%\vspace*{30mm}
+\begin{center}
+\scalebox{4}{\bf
+\begin{tabular}{c}
+非対称作用素の\\[.7ex] スペクトル  \end{tabular}}
+\end{center}
+\setcounter{tocdepth}{2}
+\tableofcontents
+%
+%
+\ifodd\draftversion
+	\input{snj01}	\input{snj02}	\input{snj03}
+	\input{snj04}	\input{snj05}	\input{snj06}
+	\input{snj07}	%\input{snj08}
+	%\input{snj09}	\input{snj10} \input{snj11}
+    %\input{snj12}	\input{snj13} %\input{snj14}
+	%\input{snj15}
+	\input{snj16} %\input{snj17}
+	\input{snj18} \input{snj19}
+	\input{snj_bibliography}
+\else
+	\include{snj01} \include{snj02}	\include{snj03}
+	\include{snj04}	\include{snj05}	\include{snj06}
+	\include{snj07} % \include{snj08}
+	%\include{snj09} \include{snj10} \include{snj11} 
+	%\include{snj12} \include{snj13} %\include{snj14}
+	%\include{snj15}
+	\include{snj16} %\include{snj17}
+	\include{snj18} \include{snj19}
+	\include{snj_bibliography}
+\fi
+
+\end{document}

@@ -1,0 +1,125 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                               %
+%        =======  Program  No.1  =======        %
+%                                               %
+%===============================================%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%=======================  Title  ===========================================
+\title{非対称作用素のスペクトル}
+%
+%=======================  Dedication  ======================================
+%\dedicatory{Dedicated to Professor XX YY on his 70th birthday}
+%=======================  Author  ==========================================
+\author{重川 一郎
+\thanks{e-mail: {\tt ichiro@math.kyoto-u.ac.jp},\quad
+           URL: {\tt http://www.math.kyoto-u.ac.jp/\~{}ichiro/}}
+\\ （京都大学大学院理学研究科）}
+% \author{Ichiro Shigekawa
+% \footnote{This research was partially supported
+% by the Ministry of Education, Culture, Sports, Science and Technology,
+% Grant-in-Aid for  Scientific Research (B), No.~11440045, 1999}
+% }
+\date{}
+\maketitle
+%=======================    Contents   =====================================
+\setcounter{tocdepth}{2}
+% \tableofcontents
+% \address{Department of Mathematics, %\\
+% Graduate School of Science, %\\
+%%Faculty of Science, %\\
+% Kyoto University, %\\
+% Kyoto 606-8502, %\\
+% Japan}
+% \email{ichiro@kusm.kyoto-u.ac.jp}
+% \urladdr{http://www.kusm.kyoto-u.ac.jp/\~{}ichiro/}
+%\date{}
+%====================  Scientific Research Fund Classification  ============
+% This research was partially supported by the Ministry of Education, 
+% Culture, Sports, Science and Technology, Grant-in-Aid for XXX,
+% ZZZZZZZZ, 19YY
+% XXX is
+% Tokubetsu Suuisin Kenkyu     Specially Promoted Research 
+% Juuten ryouiki Kenkyu        Scientific Research on Priority Areas
+%                              (Area Name)
+% Kiban Kenkyu (A), (B), (C)   Scientific Research (A),(B),(C) 
+% Hougateki Kenkyu             Exploratory Research 
+% Syourei Kenkyu (A)           Encouragement of Young Scientists 
+% ZZZ is Kadai Bangou
+%=======================  Mathematics Subject Classification  ==============
+% \subjclass{60J60, 58G32}
+% 31-XX POTENTIAL THEORY
+% 31Cxx   Other generalization
+% 31C15     Potentials and capacities
+% 31C25     Dirichlet spaces
+% 47Dxx Groups and semigroups of linear operators, their generalizations and applications 
+% 47D03 Groups and semigroups of linear operators
+% 47D06 One-parameter semigroups and linear evolution equations
+% 47D08 Schrodinger and Feynman-Kac semigroups
+% 47D09 Operator sine and cosine functions and higher-order Cauchy problems
+% 47D60 $C$-semigroups
+% 47D62 Integrated semigroups
+% 47D99 None of the above, but in this section
+% 58-XX GLOBAL ANALYSIS, ANALYSIS ON MANIFOLDS
+% 58Bxx   Infinite dimensional manifolds
+% 58B10     Differentiability questions
+% 58Gxx   Partial differential equations on manifolds;differential operators
+% 58G32     Diffusion processes and stochastic analysis on manifolds
+% 60-XX PROBABILITY THEORY AND STOCHASTIC PROCESSES
+% 60Hxx   Stochastic Analysis
+% 60H07     Stochastic calculus of variation and the Malliavin calculus
+% 60Jxx   Markov Process
+% 60J05 Markov processes with discrete parameter
+% 60J10 Markov chains with discrete parameter
+% 60J20 Applications of discrete Markov processes
+%       (social mobility, learning theory, industrial processes, etc.)
+% 60J22 Computational methods in Markov chains
+% 60J25 Markov processes with continuous parameter
+% 60J27 Markov chains with continuous parameter
+% 60J35 Transition functions, generators and resolvents
+% 60J40 Right processes
+% 60J45 Probabilistic potential theory [See also 31Cxx, 31D05]
+% 60J50 Boundary theory
+% 60J55 Local time and additive functionals
+% 60J57 Multiplicative functionals
+% 60J60 Diffusion processes [See also 58J65]
+% 60J65 Brownian motion [See also 58J65]
+% 60J70 Applications of diffusion theory
+%       (population genetics, absorption problems, etc.) [See also 92Dxx]
+% 60J75 Jump processes
+% 60J80 Branching processes (Galton-Watson, birth-and-death, etc.)
+% 60J85 Applications of branching processes [See also 92Dxx]
+% 60J99 None of the above, but in this section
+%=======================  Abstract  ========================================
+%\begin{abstract} \end{abstract}
+\hide
+\vspace{-4mm}
+\begin{itemize} \itemsep=-2mm \parsep=0mm
+\item 非対称作用素のスペクトルについて．
+\item Total file name: snj01 snj02 $\dots $ snj?, snj\_bibliography
+\item File name: unj01.tex \hfill 印刷日： \today \ \now
+\end{itemize}
+\endhide
+%=======================  Text  ============================================
+%
+\SS{DUI}{導入} %////////////////////////////////////////////////////////////
+% Dual ultracontractivity introduction
+\hide
+非対称作用素のスペクトルについて述べる。
+具体的にスペクトルが完全に決定できる場合を例としていくつか列挙する。
+池野君が修論で纏めてくれたものに補足を加えたものである。
+\hfill 2010年12月23日(木)
+\endhide
+
+作用素のスペクトルを完全に決定することは一般には難しい問題である。
+対称な作用素については比較的よく調べられてきたといえるが、
+非対称な場合のスペクトルの解析はまだ十分になされていない。
+この論文では、非対称な作用素でスペクトルが完全に決定できるものの例を
+いくつか見ていく。
+非対称な作用素の中でも、正規作用素はスペクトル分解の理論がつかえ、
+解析が易しくなることもあり、正規作用素を中心に論じる。
+
+また正規作用素については、加藤の平方作用素の問題と言われるものについても
+考察する。
+この問題は作用素の平方根の定義域と、対応する双線型形式の定義域とが一致するかどうかという問題である。
+正規作用素の場合はこの問題は容易に解くことができることを注意する。
